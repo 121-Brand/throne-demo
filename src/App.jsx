@@ -1,25 +1,22 @@
 import { useState, useEffect, useRef } from "react";
-import { Crown, ChevronRight, ChevronLeft, CheckCircle, Sparkles, Activity, Target, Wrench, HardHat, Building2, Maximize, Minimize, Users, BookOpen, Calculator, Briefcase, Clock } from "lucide-react";
+import { Crown, ChevronRight, ChevronLeft, CheckCircle, Sparkles, Activity, Target, HardHat, Maximize, Minimize, Users, BookOpen, Calculator, Briefcase, Clock } from "lucide-react";
 
 const A="#D4A843",G="#34D399",R="#F87171",B="#60A5FA",P="#A78BFA",BG="#0D0F13",CD="#1A1D24",CD2="#22262F",BR="#2A2E38",TX="#E8E6E1",T2="#9CA3AF";
 
 const steps=[
-  {id:"title",label:"Throne",day:"Intro"},
-  {id:"marcus",label:"The Problem",day:"Intro"},
-  {id:"bridge",label:"The Answer",day:"Intro"},
-  {id:"layers",label:"Three Layers",day:"Solution"},
-  {id:"onboard",label:"Onboarding",day:"Solution"},
-  {id:"f1",label:"On-Call Labor",day:"Formulas"},
-  {id:"f2",label:"Small Repeatable",day:"Formulas"},
-  {id:"f3",label:"Large Scale",day:"Formulas"},
-  {id:"agents",label:"AI Agents",day:"AI Power"},
-  {id:"pricing",label:"Pricing",day:"Business"},
-  {id:"market",label:"Opportunity",day:"Business"},
-  {id:"close",label:"Close",day:"Close"},
+  {id:"title",label:"Throne",sec:"Intro"},
+  {id:"marcus",label:"The Problem",sec:"Intro"},
+  {id:"bridge",label:"The Answer",sec:"Intro"},
+  {id:"layers",label:"Three Layers",sec:"Solution"},
+  {id:"onboard",label:"Onboarding",sec:"Solution"},
+  {id:"formula",label:"Formula Demo",sec:"Product"},
+  {id:"agents",label:"AI Agents",sec:"Product"},
+  {id:"business",label:"Pricing & Market",sec:"Business"},
+  {id:"close",label:"Close",sec:"Close"},
 ];
 
-const dayList=["Intro","Solution","Formulas","AI Power","Business","Close"];
-const dayColors={Intro:B,Solution:A,Formulas:G,"AI Power":P,Business:A,Close:A};
+const sections=["Intro","Solution","Product","Business","Close"];
+const secColors={Intro:B,Solution:A,Product:G,Business:A,Close:A};
 
 function Badge({children,color=A}){return <span style={{background:`${color}22`,color,fontSize:10,fontWeight:600,padding:"3px 10px",borderRadius:16,whiteSpace:"nowrap"}}>{children}</span>}
 function Card({children,style={},accent}){return <div style={{background:CD,border:`1px solid ${BR}`,borderRadius:10,padding:"14px 16px",position:"relative",overflow:"hidden",...style}}>{accent&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:accent}}/>}{children}</div>}
@@ -35,7 +32,7 @@ function Pulse({children,onClick,style={}}){
   return <button onClick={()=>{setP(true);setTimeout(()=>setP(false),150);onClick?.()}} style={{transform:p?"scale(0.96)":"scale(1)",transition:"transform 0.12s",cursor:"pointer",border:"none",...style}}>{children}</button>;
 }
 
-// ===================== SLIDES =====================
+// ===== SLIDES =====
 
 function SlideTitle(){
   return <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"100%",gap:12}}>
@@ -49,34 +46,35 @@ function SlideTitle(){
 
 function SlideMarcus(){
   return <div style={{display:"flex",gap:24,alignItems:"stretch",height:"100%"}}>
-    <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",gap:8}}>
-      <Badge color={R}>The Problem</Badge>
-      <h2 style={{fontSize:26,fontWeight:700,color:TX,margin:0,fontFamily:"Georgia,serif"}}>Meet Marcus. His business is running him.</h2>
-      <p style={{color:T2,fontSize:13,lineHeight:1.5,margin:0}}>Phoenix Home Services — $1.2M/year. Handyman + roofing. 6 employees, 8 subs. Successful by every measure. But it runs on his brain, and that doesn't scale.</p>
-      <div style={{display:"flex",flexDirection:"column",gap:8,marginTop:4}}>
+    <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",gap:6}}>
+      <div style={{color:A,fontSize:15,fontWeight:600}}>Meet Marcus</div>
+      <h2 style={{fontSize:28,fontWeight:700,color:TX,margin:"0 0 12px",fontFamily:"Georgia,serif"}}>His business is running him.</h2>
+      <div style={{display:"flex",flexDirection:"column",gap:6}}>
         {[
-          {icon:"⏱",t:"Quoting takes 45 minutes",d:"Pricing lives in a spreadsheet only he understands",c:R},
-          {icon:"💸",t:"Pricing has been wrong for months",d:"Nobody catches it until the P&L comes in short",c:A},
-          {icon:"🔧",t:"4 tools that don't talk to each other",d:"Spreadsheets + Jobber + texts + his head",c:B},
-          {icon:"📋",t:"$96K lost per year to invisible inefficiency",d:"Stale pricing, missed follow-ups, untracked costs",c:A},
+          {t:"Phoenix Home Services doing $1.2M/year",c:R},
+          {t:"Handyman + roofing",c:R},
+          {t:"6 employees, 8 subs",c:G},
+          {t:"Quoting takes 45 minutes",c:A},
+          {t:"Pricing has been wrong for months",c:A},
+          {t:"4 tools that don't talk to each other",c:B},
         ].map((x,i) =>
-          <Card key={i} style={{padding:"8px 12px"}} accent={x.c}>
-            <div style={{display:"flex",gap:8,alignItems:"flex-start"}}>
-              <span style={{fontSize:13,flexShrink:0}}>{x.icon}</span>
-              <div><span style={{color:TX,fontSize:12,fontWeight:600}}>{x.t}</span> <span style={{color:T2,fontSize:11}}>— {x.d}</span></div>
-            </div>
-          </Card>
+          <div key={i} style={{display:"flex",alignItems:"center",gap:10}}>
+            <div style={{width:4,height:24,background:x.c,borderRadius:2,flexShrink:0}}/>
+            <span style={{color:TX,fontSize:14,fontWeight:600}}>{x.t}</span>
+          </div>
         )}
       </div>
     </div>
-    <div style={{display:"flex",flexDirection:"column",gap:10,width:180,justifyContent:"center"}}>
-      <Card style={{textAlign:"center",padding:"14px 10px"}}>
-        <div style={{fontSize:32,fontWeight:800,color:R,fontFamily:"Georgia,serif"}}>60-80</div>
-        <div style={{color:T2,fontSize:9,marginTop:3}}>hrs/week — the "system" is him</div>
+    <div style={{display:"flex",flexDirection:"column",gap:12,width:200,justifyContent:"center"}}>
+      <Card style={{textAlign:"center",padding:"18px 12px"}}>
+        <div style={{fontSize:40,fontWeight:800,color:R,fontFamily:"Georgia,serif"}}>60-80</div>
+        <div style={{color:T2,fontSize:10,marginTop:4}}>Hrs/week — because the</div>
+        <div style={{color:T2,fontSize:10}}>"system" is him</div>
       </Card>
-      <Card style={{textAlign:"center",padding:"14px 10px",background:`${G}11`,border:`1px solid ${G}33`}}>
-        <div style={{fontSize:32,fontWeight:800,color:G,fontFamily:"Georgia,serif"}}>40</div>
-        <div style={{color:G,fontSize:9,marginTop:3}}>what Throne gets him to</div>
+      <Card style={{textAlign:"center",padding:"18px 12px"}}>
+        <div style={{fontSize:40,fontWeight:800,color:A,fontFamily:"Georgia,serif"}}>$96K</div>
+        <div style={{color:T2,fontSize:10,marginTop:4}}>Lost per year to inefficiency</div>
+        <div style={{color:T2,fontSize:10}}>he can't see</div>
       </Card>
     </div>
   </div>;
@@ -117,58 +115,61 @@ function SlideLayers(){
 function SlideOnboard(){
   const[step,setStep]=useState(0);
   const ob=[
-    {l:"Account Created",d:"Business name, Google sign-in. 30 seconds.",ic:CheckCircle},
-    {l:"Business Profile",d:"Residential contractor, $1-2M, Phoenix AZ.",ic:Briefcase},
-    {l:"Formulas Selected",d:"On-Call Labor (handyman) + Small Repeatable (roofing).",ic:Crown},
-    {l:"Catalog Loaded",d:"152 services, pricing models, SOPs, checklists — instantly.",ic:BookOpen},
-    {l:"Pricing Configured",d:"$35/hr loaded · 25% material markup · 40% target margin.",ic:Calculator},
-    {l:"Team Invited",d:"6 users, role-based access. Field techs → mobile. Admin → desktop.",ic:Users},
-    {l:"First Quote Sent",d:"Formula-compiled, client-ready. Total time: 11 minutes.",ic:Sparkles},
+    {l:"Account Created",d:"Google sign-in. 30 seconds.",ic:CheckCircle},
+    {l:"Formulas Selected",d:"On-Call Labor + Small Repeatable + Custom Large Scale.",ic:Crown},
+    {l:"Catalog Loaded",d:"152 services, pricing, SOPs, checklists — from Best Practices or your own docs.",ic:BookOpen},
+    {l:"AI Transfers Your Data",d:"Upload any spreadsheet, PDF, or export — AI maps and imports it automatically.",ic:Sparkles},
+    {l:"Pricing Configured",d:"Labor rate, markup, margin target. Sample calc shown live.",ic:Calculator},
+    {l:"Team Invited",d:"Role-based access. Field techs get mobile, admin gets desktop.",ic:Users},
+    {l:"First Quote Sent",d:"Formula-compiled, client-ready. Total time: 11 minutes.",ic:CheckCircle},
   ];
-  useEffect(()=>{if(step<ob.length-1){const t=setTimeout(()=>setStep(s=>s+1),900);return()=>clearTimeout(t)}},[step]);
+  useEffect(()=>{if(step<ob.length-1){const t=setTimeout(()=>setStep(s=>s+1),800);return()=>clearTimeout(t)}},[step]);
   return <div style={{display:"flex",gap:20,alignItems:"stretch",height:"100%"}}>
     <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center"}}>
       <Badge color={G}>Onboarding</Badge>
-      <h2 style={{fontSize:24,fontWeight:700,color:TX,margin:"8px 0 4px",fontFamily:"Georgia,serif"}}>Signup to sending first quote in 11 minutes.</h2>
-      <p style={{color:T2,fontSize:12,margin:"0 0 14px"}}>Not days. Not weeks. Marcus is operational before his coffee gets cold.</p>
+      <h2 style={{fontSize:22,fontWeight:700,color:TX,margin:"8px 0 4px",fontFamily:"Georgia,serif"}}>Signup to sending first quote in 11 minutes.</h2>
+      <div style={{padding:8,background:`${R}11`,borderRadius:6,border:`1px solid ${R}33`,marginBottom:12}}>
+        <span style={{color:TX,fontSize:11,fontWeight:600}}>Other systems take weeks or months to set up. </span>
+        <span style={{color:T2,fontSize:11}}>Throne has a smart AI that transfers your existing documents into our format — making the entire process incredibly simple.</span>
+      </div>
       <Card>
         <div style={{display:"flex",flexDirection:"column",gap:2}}>
-          {ob.map((o,i)=>{const done=i<=step;const active=i===step;return <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"7px 10px",background:active?`${G}11`:"transparent",borderRadius:6,opacity:done?1:0.25,transition:"all 0.3s"}}>
-            <div style={{width:24,height:24,borderRadius:"50%",background:done?`${G}22`:CD2,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-              {done?<CheckCircle size={12} color={G}/>:<span style={{color:T2,fontSize:9}}>{i+1}</span>}
+          {ob.map((o,i)=>{const done=i<=step;const active=i===step;return <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"6px 10px",background:active?`${G}11`:"transparent",borderRadius:6,opacity:done?1:0.25,transition:"all 0.3s"}}>
+            <div style={{width:22,height:22,borderRadius:"50%",background:done?`${G}22`:CD2,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+              {done?<CheckCircle size={11} color={G}/>:<span style={{color:T2,fontSize:9}}>{i+1}</span>}
             </div>
             <div style={{flex:1}}>
-              <span style={{color:done?TX:T2,fontSize:12,fontWeight:600}}>{o.l}</span>
+              <span style={{color:done?TX:T2,fontSize:11,fontWeight:600}}>{o.l}</span>
               <span style={{color:T2,fontSize:10,marginLeft:6}}>{o.d}</span>
             </div>
           </div>})}
         </div>
       </Card>
     </div>
-    {step>=ob.length-1&&<div style={{width:200,display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",background:`${G}11`,borderRadius:12,padding:20,border:`1px solid ${G}33`}}>
-      <Sparkles size={28} color={G}/>
-      <div style={{color:G,fontSize:36,fontWeight:800,margin:"8px 0 4px",fontFamily:"Georgia,serif"}}>11 min</div>
-      <div style={{color:T2,fontSize:11,textAlign:"center"}}>152 services loaded.<br/>Pricing engine live.<br/>Team has access.<br/>First quote sent.</div>
+    {step>=ob.length-1&&<div style={{width:180,display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",background:`${G}11`,borderRadius:12,padding:16,border:`1px solid ${G}33`}}>
+      <Sparkles size={24} color={G}/>
+      <div style={{color:G,fontSize:32,fontWeight:800,margin:"6px 0 4px",fontFamily:"Georgia,serif"}}>11 min</div>
+      <div style={{color:T2,fontSize:10,textAlign:"center"}}>152 services loaded.<br/>Pricing engine live.<br/>Team has access.<br/>First quote sent.</div>
     </div>}
   </div>;
 }
 
-function FormulaSlide({type,color,icon:Icon,inputs,total,services,extras,metrics}){
+function SlideFormula(){
   const[loading,setLoading]=useState(false);
   const[fired,setFired]=useState(false);
   const fire=()=>{if(fired)return;setLoading(true);setTimeout(()=>{setLoading(false);setFired(true)},1200)};
-
   return <div style={{display:"flex",gap:16,alignItems:"stretch",height:"100%"}}>
     <div style={{width:240,display:"flex",flexDirection:"column",justifyContent:"center"}}>
-      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
-        <Icon size={16} color={color}/><Badge color={color}>{type}</Badge>
+      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+        <HardHat size={16} color={G}/><Badge color={G}>Small Repeatable</Badge>
       </div>
-      <Card accent={color} style={{padding:"10px 12px",marginBottom:10}}>
-        <div style={{color,fontSize:9,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:6}}>Input</div>
-        <div style={{background:BG,borderRadius:6,padding:8,fontFamily:"'Courier New',monospace",fontSize:11,color:G,lineHeight:1.7,whiteSpace:"pre-line"}}>{inputs}</div>
+      <div style={{color:T2,fontSize:11,marginBottom:10}}>One of our <span style={{color:TX,fontWeight:600}}>three powerful formulas</span>. Each one compiles complete operational output from minimal input.</div>
+      <Card accent={G} style={{padding:"10px 12px",marginBottom:10}}>
+        <div style={{color:G,fontSize:9,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:6}}>Input</div>
+        <div style={{background:BG,borderRadius:6,padding:8,fontFamily:"'Courier New',monospace",fontSize:11,color:G,lineHeight:1.7,whiteSpace:"pre-line"}}>{"Job: Flat Roof Recoat\nSqft: 4,200\nTier: Standard"}</div>
       </Card>
       {!fired ? (
-        <Pulse onClick={fire} style={{width:"100%",padding:"10px 0",background:loading?CD2:color,borderRadius:8,color:loading?T2:"#000",fontSize:12,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+        <Pulse onClick={fire} style={{width:"100%",padding:"10px 0",background:loading?CD2:G,borderRadius:8,color:loading?T2:"#000",fontSize:12,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
           {loading?<><span style={{display:"inline-block",animation:"spin 1s linear infinite"}}>⟳</span> Compiling...</>:<><Sparkles size={12}/> Run Formula</>}
         </Pulse>
       ) : (
@@ -181,19 +182,19 @@ function FormulaSlide({type,color,icon:Icon,inputs,total,services,extras,metrics
       <Card accent={fired?G:BR}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
           <span style={{color:G,fontSize:10,fontWeight:700,textTransform:"uppercase"}}>Throne Compiles</span>
-          <span style={{fontSize:26,fontWeight:800,color:TX,fontFamily:"Georgia,serif"}}>{total}</span>
+          <span style={{fontSize:26,fontWeight:800,color:TX,fontFamily:"Georgia,serif"}}>$18,480</span>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:8}}>
           <div style={{background:CD2,borderRadius:8,padding:10}}>
             <div style={{color:A,fontSize:9,fontWeight:700,marginBottom:6}}>SERVICES & PRICING</div>
-            {services.map((s,i) => <div key={i} style={{color:T2,fontSize:10,padding:"2px 0",borderBottom:i<services.length-1?`1px solid ${BR}`:"none"}}>{s}</div>)}
+            {["Pressure Wash — $2,100","Primer (4,200×$1.20) — $5,040","Finish (4,200×$1.85) — $7,770","Flashing — $1,890","Inspection — $680","Markup — $1,000"].map((s,i) => <div key={i} style={{color:T2,fontSize:10,padding:"2px 0",borderBottom:i<5?`1px solid ${BR}`:"none"}}>{s}</div>)}
           </div>
           <div style={{background:CD2,borderRadius:8,padding:10}}>
             <div style={{color:G,fontSize:9,fontWeight:700,marginBottom:6}}>ALSO GENERATED</div>
-            {extras.map((s,i) => <div key={i} style={{color:T2,fontSize:10,padding:"2px 0",display:"flex",gap:4,alignItems:"center"}}><CheckCircle size={8} color={G}/>{s}</div>)}
+            {["Weather protocol","3-day crew schedule","QA thickness test","Photo documentation","Maintenance plan offer","Upsell triggers"].map((s,i) => <div key={i} style={{color:T2,fontSize:10,padding:"2px 0",display:"flex",gap:4,alignItems:"center"}}><CheckCircle size={8} color={G}/>{s}</div>)}
           </div>
         </div>
-        <div style={{background:BG,borderRadius:6,padding:8,color:T2,fontSize:11}}>{metrics}</div>
+        <div style={{background:BG,borderRadius:6,padding:8,color:T2,fontSize:11}}>44% margin | {"<"}3% callback | 78% maintenance renewal</div>
       </Card>
     </div>
   </div>;
@@ -202,105 +203,97 @@ function FormulaSlide({type,color,icon:Icon,inputs,total,services,extras,metrics
 function SlideAgents(){
   return <div style={{display:"flex",flexDirection:"column",justifyContent:"center",height:"100%"}}>
     <Badge color={P}>L3 AI Agents</Badge>
-    <h2 style={{fontSize:24,fontWeight:700,color:TX,margin:"8px 0 4px",fontFamily:"Georgia,serif"}}>Superpowered by the three-layer system.</h2>
-    <p style={{color:T2,fontSize:12,margin:"0 0 14px"}}>These are 2 of 9 agents. All powered by your real L1 data compiled through L2 Formulas.</p>
+    <h2 style={{fontSize:22,fontWeight:700,color:TX,margin:"8px 0 4px",fontFamily:"Georgia,serif"}}>Superpowered by the three-layer system.</h2>
+    <p style={{color:T2,fontSize:11,margin:"0 0 12px"}}>These are 2 of 9 agents. All powered by your real L1 data compiled through L2 Formulas.</p>
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
       <Card accent={R}>
-        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}><Activity size={16} color={R}/><span style={{color:TX,fontSize:15,fontWeight:700}}>Pricebook Drift Engine</span></div>
-        <p style={{color:T2,fontSize:12,lineHeight:1.5,margin:"0 0 12px"}}>Compares estimated vs actual costs across every completed job. Finds the money you're losing and fixes it with one click.</p>
-        <Card style={{background:BG,padding:"10px 12px"}}>
-          <div style={{color:T2,fontSize:10,marginBottom:4}}>90-day analysis · 31 completed jobs</div>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}><Activity size={15} color={R}/><span style={{color:TX,fontSize:14,fontWeight:700}}>Pricebook Drift Engine</span></div>
+        <p style={{color:T2,fontSize:11,lineHeight:1.5,margin:"0 0 10px"}}>Compares estimated vs actual costs across every completed job. Finds the money you're losing and fixes it with one click.</p>
+        <Card style={{background:BG,padding:"8px 10px"}}>
+          <div style={{color:T2,fontSize:9,marginBottom:3}}>90-day analysis · 31 completed jobs</div>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
-            <span style={{color:TX,fontSize:12}}>Monthly recovery:</span>
-            <span style={{color:A,fontSize:22,fontWeight:800,fontFamily:"Georgia,serif"}}>$<AnimNum value={3840} color={A}/>/mo</span>
+            <span style={{color:TX,fontSize:11}}>Monthly recovery:</span>
+            <span style={{color:A,fontSize:20,fontWeight:800,fontFamily:"Georgia,serif"}}>$<AnimNum value={3840} color={A}/>/mo</span>
           </div>
         </Card>
-        <div style={{fontSize:11,color:G,fontWeight:600,marginTop:8}}>One-click apply. Every change reversible.</div>
+        <div style={{fontSize:10,color:G,fontWeight:600,marginTop:6}}>One-click apply. Every change reversible.</div>
       </Card>
       <Card accent={G}>
-        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}><Target size={16} color={G}/><span style={{color:TX,fontSize:15,fontWeight:700}}>Service Plan Advisor</span></div>
-        <p style={{color:T2,fontSize:12,lineHeight:1.5,margin:"0 0 12px"}}>Analyzes job history and finds recurring revenue hiding in one-time jobs. Builds the plan, prices it, projects the ROI.</p>
-        <Card style={{background:BG,padding:"10px 12px"}}>
-          <div style={{color:TX,fontSize:13,fontWeight:700,marginBottom:2}}>Annual Roof Care Plan — $833/yr</div>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}><Target size={15} color={G}/><span style={{color:TX,fontSize:14,fontWeight:700}}>Service Plan Advisor</span></div>
+        <p style={{color:T2,fontSize:11,lineHeight:1.5,margin:"0 0 10px"}}>Analyzes job history and finds recurring revenue hiding in one-time jobs. Builds the plan, prices it, projects the ROI.</p>
+        <Card style={{background:BG,padding:"8px 10px"}}>
+          <div style={{color:TX,fontSize:12,fontWeight:700,marginBottom:2}}>Annual Roof Care Plan — $833/yr</div>
           <div style={{color:T2,fontSize:10}}>Inspection + drain cleaning + touch-up coating</div>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginTop:6}}>
-            <span style={{color:T2,fontSize:11}}>At 20 clients:</span>
-            <span style={{color:G,fontSize:22,fontWeight:800,fontFamily:"Georgia,serif"}}>$<AnimNum value={16660} color={G}/>/yr</span>
+            <span style={{color:T2,fontSize:10}}>At 20 clients:</span>
+            <span style={{color:G,fontSize:20,fontWeight:800,fontFamily:"Georgia,serif"}}>$<AnimNum value={16660} color={G}/>/yr</span>
           </div>
         </Card>
-        <div style={{fontSize:11,color:A,fontWeight:600,marginTop:8}}>Recurring revenue = 3-5x valuation multiplier.</div>
+        <div style={{fontSize:10,color:A,fontWeight:600,marginTop:6}}>Recurring revenue = 3-5x valuation multiplier.</div>
       </Card>
     </div>
   </div>;
 }
 
-function SlidePricing(){
+function SlideBusiness(){
   const tiers=[
-    {n:"Students",p:"Free",d:"2 years · Verified with school email · 3 users · L1+L2",c:T2},
+    {n:"Students",p:"Free",d:"Verified school email · 2 yrs · 3 users",c:T2},
     {n:"Startup",p:"$100/mo",d:"3 users · L1+L2",c:B},
     {n:"Business",p:"$300/mo",d:"Unlimited users · L1+L2",c:G},
-    {n:"Automated Scale",p:"$500/mo",d:"Unlimited users · L1+L2+L3 · 9 AI agents",c:A},
+    {n:"Automated Scale",p:"$500/mo",d:"Unlimited · L1+L2+L3 · 9 agents",c:A},
   ];
-  return <div style={{display:"flex",flexDirection:"column",justifyContent:"center",height:"100%"}}>
-    <Badge color={A}>Business Model</Badge>
-    <h2 style={{fontSize:28,fontWeight:700,color:TX,margin:"8px 0 20px",fontFamily:"Georgia,serif"}}>Simple pricing.</h2>
-    <div style={{display:"flex",flexDirection:"column",gap:10}}>
-      {tiers.map((t,i) =>
-        <Card key={i} style={{padding:"12px 16px",borderLeft:`4px solid ${t.c}`}}>
-          <div style={{display:"flex",alignItems:"center",gap:20}}>
-            <span style={{color:TX,fontSize:16,fontWeight:700,fontFamily:"Georgia,serif",width:150}}>{t.n}</span>
-            <span style={{color:t.c,fontSize:22,fontWeight:800,fontFamily:"Georgia,serif",width:120}}>{t.p}</span>
-            <span style={{color:T2,fontSize:13}}>{t.d}</span>
-          </div>
-        </Card>
-      )}
-    </div>
-    <div style={{color:T2,fontSize:12,marginTop:14}}>Plus: $2K white-glove setup · $20K consulting bundle ($28K value)</div>
-  </div>;
-}
-
-function SlideMarket(){
   const tools=[
-    {l:"Construction CRM",p:32,d:"Buildertrend, Jobber — stores data, doesn't think",c:B},
-    {l:"Generic CRM",p:29,d:"Salesforce, HubSpot — not built for contractors",c:P},
-    {l:"Custom / In-House",p:22,d:"Spreadsheets that break when shared",c:A},
-    {l:"Just Outlook",p:17,d:"Email is the entire system",c:R},
+    {l:"Construction CRM",p:32,c:B},
+    {l:"Generic CRM",p:29,c:P},
+    {l:"Custom / In-House",p:22,c:A},
+    {l:"Just Outlook",p:17,c:R},
   ];
-  return <div style={{display:"flex",flexDirection:"column",justifyContent:"center",height:"100%"}}>
-    <Badge color={A}>The Opportunity</Badge>
-    <h2 style={{fontSize:24,fontWeight:700,color:TX,margin:"8px 0 16px",fontFamily:"Georgia,serif"}}>Here's what contractors use today.</h2>
-    <div style={{display:"flex",gap:20}}>
-      <div style={{flex:1}}>
+  return <div style={{display:"flex",gap:20,alignItems:"stretch",height:"100%"}}>
+    {/* Left: Pricing */}
+    <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center"}}>
+      <Badge color={A}>Pricing</Badge>
+      <h2 style={{fontSize:22,fontWeight:700,color:TX,margin:"8px 0 14px",fontFamily:"Georgia,serif"}}>Simple pricing.</h2>
+      <div style={{display:"flex",flexDirection:"column",gap:6}}>
+        {tiers.map((t,i) =>
+          <div key={i} style={{display:"flex",alignItems:"center",gap:12,padding:"10px 14px",background:CD,borderRadius:8,borderLeft:`3px solid ${t.c}`}}>
+            <span style={{color:TX,fontSize:13,fontWeight:700,width:110}}>{t.n}</span>
+            <span style={{color:t.c,fontSize:18,fontWeight:800,fontFamily:"Georgia,serif",width:90}}>{t.p}</span>
+            <span style={{color:T2,fontSize:10}}>{t.d}</span>
+          </div>
+        )}
+      </div>
+      <div style={{color:T2,fontSize:10,marginTop:8}}>Plus: $2K setup · $20K consulting bundle ($28K value)</div>
+    </div>
+    {/* Right: Market */}
+    <div style={{width:280,display:"flex",flexDirection:"column",justifyContent:"center"}}>
+      <Badge color={B}>Market</Badge>
+      <div style={{marginTop:8,marginBottom:12}}>
         {tools.map((t,i) =>
-          <div key={i} style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
-            <span style={{color:t.c,fontSize:20,fontWeight:800,fontFamily:"Georgia,serif",width:48,textAlign:"right",flexShrink:0}}>{t.p}%</span>
+          <div key={i} style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+            <span style={{color:t.c,fontSize:16,fontWeight:800,fontFamily:"Georgia,serif",width:40,textAlign:"right"}}>{t.p}%</span>
             <div style={{flex:1}}>
-              <div style={{display:"flex",alignItems:"center",gap:8}}>
-                <span style={{color:TX,fontSize:13,fontWeight:700}}>{t.l}</span>
-                <span style={{color:T2,fontSize:10}}>— {t.d}</span>
-              </div>
-              <div style={{height:4,background:CD,borderRadius:2,overflow:"hidden",marginTop:4}}>
+              <div style={{color:TX,fontSize:11,fontWeight:600}}>{t.l}</div>
+              <div style={{height:3,background:CD,borderRadius:2,overflow:"hidden",marginTop:2}}>
                 <div style={{height:"100%",width:`${t.p*2.5}%`,background:t.c,borderRadius:2,opacity:0.5}}/>
               </div>
             </div>
           </div>
         )}
-        <div style={{color:T2,fontSize:9,marginTop:4,fontStyle:"italic",marginLeft:60}}>Source: JBKnowledge Construction Technology Report</div>
       </div>
-      <div style={{display:"flex",flexDirection:"column",gap:10,width:180}}>
-        <Card style={{textAlign:"center",padding:14}}>
-          <div style={{color:G,fontSize:32,fontWeight:800,fontFamily:"Georgia,serif"}}><AnimNum value={680} color={G}/>K</div>
-          <div style={{color:T2,fontSize:10,marginTop:4}}>target businesses</div>
+      <div style={{display:"flex",gap:8}}>
+        <Card style={{flex:1,textAlign:"center",padding:10}}>
+          <div style={{color:G,fontSize:24,fontWeight:800,fontFamily:"Georgia,serif"}}><AnimNum value={680} color={G}/>K</div>
+          <div style={{color:T2,fontSize:9}}>target businesses</div>
         </Card>
-        <Card style={{textAlign:"center",padding:14}}>
-          <div style={{color:A,fontSize:32,fontWeight:800,fontFamily:"Georgia,serif"}}>$1.6B</div>
-          <div style={{color:T2,fontSize:10,marginTop:4}}>annual addressable</div>
-          <div style={{color:T2,fontSize:9,marginTop:2}}>680K × $200/mo</div>
+        <Card style={{flex:1,textAlign:"center",padding:10}}>
+          <div style={{color:A,fontSize:24,fontWeight:800,fontFamily:"Georgia,serif"}}>$1.6B</div>
+          <div style={{color:T2,fontSize:9}}>addressable/yr</div>
         </Card>
       </div>
-    </div>
-    <div style={{marginTop:14,padding:10,background:`${A}11`,borderRadius:8,textAlign:"center"}}>
-      <span style={{color:TX,fontSize:13,fontWeight:600}}>None of these tools compile operational output from your data. That's what Throne does.</span>
+      <div style={{marginTop:8,padding:6,background:`${R}11`,borderRadius:6,border:`1px solid ${R}33`}}>
+        <span style={{color:TX,fontSize:9,fontWeight:600}}>#1 complaint: </span>
+        <span style={{color:T2,fontSize:9}}>CRMs take as much time to manage as they save. Throne takes 11 min to set up.</span>
+      </div>
     </div>
   </div>;
 }
@@ -315,7 +308,7 @@ function SlideClose(){
   </div>;
 }
 
-// ===================== SHELL =====================
+// ===== SHELL =====
 
 export default function App(){
   const[cur,setCur]=useState(0);
@@ -346,12 +339,9 @@ export default function App(){
       case"bridge":return <SlideBridge/>;
       case"layers":return <SlideLayers/>;
       case"onboard":return <SlideOnboard/>;
-      case"f1":return <FormulaSlide type="On-Call Labor" color={B} icon={Wrench} inputs={"Service: Faucet + Disposal\nTier: Standard"} total="$485" services={["Faucet Replace — $185","Disposal Install — $265","Dispatch Fee — $35"]} extras={["6-step checklist","Material list","Upsell triggers","Schedule block","Invoice template"]} metrics="Avg ticket: $380 | First-visit completion: 94% | Response: <24hrs"/>;
-      case"f2":return <FormulaSlide type="Small Repeatable" color={G} icon={HardHat} inputs={"Job: Flat Roof Recoat\nSqft: 4,200\nTier: Standard"} total="$18,480" services={["Pressure Wash — $2,100","Primer (4,200×$1.20) — $5,040","Finish (4,200×$1.85) — $7,770","Flashing — $1,890","Inspection — $680","Markup — $1,000"]} extras={["Weather protocol","3-day crew schedule","QA thickness test","Photo docs","Maintenance offer"]} metrics="44% margin | <3% callback | 78% maintenance renewal"/>;
-      case"f3":return <FormulaSlide type="Custom Large Scale" color={A} icon={Building2} inputs={"Project: Kitchen Remodel\nTier: Standard\nSqft: 180"} total="$42,150" services={["Demo — $3,200","Electrical — $4,800","Plumbing — $3,600","Cabinets — $8,400","Countertop — $6,750","Tile — $2,880","Fixtures — $2,400","Paint — $1,850","Punch — $950","PM Overhead — $7,320"]} extras={["4-stage lifecycle","Sub assignments","Budget tracker","Change orders","Milestone invoicing","Warranty package"]} metrics="38-42% margin | <10% budget variance | <2 change orders"/>;
+      case"formula":return <SlideFormula/>;
       case"agents":return <SlideAgents/>;
-      case"pricing":return <SlidePricing/>;
-      case"market":return <SlideMarket/>;
+      case"business":return <SlideBusiness/>;
       case"close":return <SlideClose/>;
       default:return null;
     }
@@ -375,9 +365,9 @@ export default function App(){
 
     {/* Section bar */}
     <div style={{padding:"6px 20px",borderBottom:`1px solid ${BR}`,display:"flex",gap:2,flexShrink:0}}>
-      {dayList.map(d=>{const active=steps[cur].day===d;const passed=dayList.indexOf(steps[cur].day)>dayList.indexOf(d);
-        return <div key={d} style={{flex:1,padding:"4px 0",textAlign:"center",borderRadius:4,background:active?`${dayColors[d]}22`:passed?`${G}08`:"transparent",borderBottom:`2px solid ${active?dayColors[d]:passed?G:"transparent"}`,transition:"all 0.3s"}}>
-          <span style={{fontSize:10,fontWeight:active?700:400,color:active?dayColors[d]:passed?G:T2}}>{d}</span>
+      {sections.map(s=>{const active=steps[cur].sec===s;const passed=sections.indexOf(steps[cur].sec)>sections.indexOf(s);
+        return <div key={s} style={{flex:1,padding:"4px 0",textAlign:"center",borderRadius:4,background:active?`${secColors[s]}22`:passed?`${G}08`:"transparent",borderBottom:`2px solid ${active?secColors[s]:passed?G:"transparent"}`,transition:"all 0.3s"}}>
+          <span style={{fontSize:10,fontWeight:active?700:400,color:active?secColors[s]:passed?G:T2}}>{s}</span>
         </div>
       })}
     </div>
@@ -391,7 +381,7 @@ export default function App(){
     </div>
 
     {/* Content */}
-    <div ref={ref} style={{flex:1,overflow:"auto",padding:"16px 20px",position:"relative"}}>
+    <div ref={ref} style={{flex:1,overflow:"auto",padding:"16px 20px"}}>
       <div key={cur} style={{maxWidth:840,margin:"0 auto",height:"100%"}}>{render()}</div>
     </div>
 
