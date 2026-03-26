@@ -73,37 +73,49 @@ function SlideTitle(){
   </div>;
 }
 
-// ===== SLIDE 2: THE PROBLEM (visual) =====
+// ===== SLIDE 2: THE PROBLEM (relatable, aggravating) =====
 function SlideProblem(){
-  const pains=[
-    {icon:<Clock size={28}/>,stat:"12+",unit:"hrs/week",label:"spent on admin, not the work",c:R,delay:400},
-    {icon:<DollarSign size={28}/>,stat:"$96K",unit:"/year",label:"lost to pricing drift alone",c:A,delay:700},
-    {icon:<AlertTriangle size={28}/>,stat:"4+",unit:"tools",label:"that don't talk to each other",c:B,delay:1000},
-    {icon:<XIcon size={28}/>,stat:"0",unit:"systems",label:"that actually run the business",c:R,delay:1300},
+  const scenes=[
+    {time:"5:30 AM",text:"Alarm goes off. Already behind.",c:T2,delay:300},
+    {time:"7:00 AM",text:"On the job site. Phone won't stop ringing.",c:T2,delay:800},
+    {time:"12:00 PM",text:"Lunch? That's when you do quotes.",c:A,delay:1300},
+    {time:"6:00 PM",text:"Family's eating dinner. You're updating spreadsheets.",c:R,delay:1800},
+    {time:"10:30 PM",text:"Still working. Pricing is probably wrong. You just don't know it yet.",c:R,delay:2300},
   ];
-  return <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",height:"100%"}}>
-    <FadeIn delay={100} from="above"><Badge color={R}>The problem</Badge></FadeIn>
-    <FadeIn delay={200} from="none"><h2 style={{fontSize:26,fontWeight:700,color:TX,margin:"10px 0 24px",fontFamily:"Georgia,serif",textAlign:"center"}}>The business side is broken.</h2></FadeIn>
-    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,maxWidth:600,width:"100%"}}>
-      {pains.map((p,i)=>
-        <FadeIn key={i} delay={p.delay} from={i%2===0?"left":"right"}>
-          <Card style={{padding:"16px 18px",borderTop:"3px solid "+p.c,textAlign:"center"}}>
-            <div style={{color:p.c,marginBottom:8,display:"flex",justifyContent:"center"}}>{p.icon}</div>
-            <div style={{display:"flex",alignItems:"baseline",justifyContent:"center",gap:4}}>
-              <span style={{color:p.c,fontSize:32,fontWeight:800,fontFamily:"Georgia,serif"}}>{p.stat}</span>
-              <span style={{color:T2,fontSize:12}}>{p.unit}</span>
-            </div>
-            <div style={{color:T2,fontSize:11,marginTop:4}}>{p.label}</div>
-          </Card>
-        </FadeIn>
-      )}
-    </div>
-    <FadeIn delay={1600} from="below">
-      <div style={{marginTop:20,textAlign:"center"}}>
-        <span style={{color:TX,fontSize:14,fontWeight:600}}>Tools exist to organize information.</span>
-        <span style={{color:R,fontSize:14,fontWeight:700}}> None of them help run the company.</span>
+  const[shown,setShown]=useState(0);
+  useEffect(()=>{
+    const timers=scenes.map((_,i)=>setTimeout(()=>setShown(i+1),scenes[i].delay));
+    return ()=>timers.forEach(clearTimeout);
+  },[]);
+  return <div style={{display:"flex",flexDirection:"column",justifyContent:"center",height:"100%",padding:"0 20px"}}>
+    <div style={{maxWidth:640,margin:"0 auto",width:"100%"}}>
+      <FadeIn delay={100} from="above"><Badge color={R}>The problem</Badge></FadeIn>
+      <FadeIn delay={150} from="none"><h2 style={{fontSize:26,fontWeight:700,color:TX,margin:"10px 0 20px",fontFamily:"Georgia,serif"}}>A day in the life.</h2></FadeIn>
+      <div style={{display:"flex",flexDirection:"column",gap:0}}>
+        {scenes.map((s,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"flex-start",gap:14,padding:"10px 0",borderLeft:i<shown?"2px solid "+(s.c===R?R:s.c===A?A:BR):"2px solid "+BG,marginLeft:40,paddingLeft:14,opacity:i<shown?1:0,transform:i<shown?"translateX(0)":"translateX(-10px)",transition:"all 0.6s cubic-bezier(0.4,0,0.2,1)"}}>
+            <span style={{color:s.c===R?R:s.c===A?A:T2,fontSize:12,fontWeight:700,fontFamily:"'Courier New',monospace",width:56,flexShrink:0}}>{s.time}</span>
+            <span style={{color:s.c===R?R:s.c===A?A:TX,fontSize:16,fontWeight:s.c===R?700:500}}>{s.text}</span>
+          </div>
+        ))}
       </div>
-    </FadeIn>
+      {shown>=5&&<FadeIn delay={200} from="below">
+        <div style={{marginTop:20,marginLeft:40,paddingLeft:14,display:"flex",gap:20}}>
+          <div style={{textAlign:"center"}}>
+            <div style={{color:R,fontSize:28,fontWeight:800,fontFamily:"Georgia,serif"}}>80</div>
+            <div style={{color:T2,fontSize:10}}>hrs/week</div>
+          </div>
+          <div style={{textAlign:"center"}}>
+            <div style={{color:A,fontSize:28,fontWeight:800,fontFamily:"Georgia,serif"}}>$96K</div>
+            <div style={{color:T2,fontSize:10}}>lost/year</div>
+          </div>
+          <div style={{textAlign:"center"}}>
+            <div style={{color:B,fontSize:28,fontWeight:800,fontFamily:"Georgia,serif"}}>0</div>
+            <div style={{color:T2,fontSize:10}}>tools that help</div>
+          </div>
+        </div>
+      </FadeIn>}
+    </div>
   </div>;
 }
 
@@ -152,42 +164,52 @@ function SlideMarcus(){
   </div>;
 }
 
-// ===== SLIDE 4: THE ANSWER (visual) =====
+// ===== SLIDE 4: THE ANSWER (chaos → cheating) =====
 function SlideAnswer(){
   const[phase,setPhase]=useState(0);
   useEffect(()=>{
-    const t1=setTimeout(()=>setPhase(1),300);
-    const t2=setTimeout(()=>setPhase(2),1200);
-    const t3=setTimeout(()=>setPhase(3),2200);
-    return()=>{clearTimeout(t1);clearTimeout(t2);clearTimeout(t3)};
+    const t1=setTimeout(()=>setPhase(1),400);
+    const t2=setTimeout(()=>setPhase(2),2000);
+    return()=>{clearTimeout(t1);clearTimeout(t2)};
   },[]);
-  const tools=["Buildertrend","Jobber","ServiceTitan","Spreadsheets","HubSpot"];
-  return <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",height:"100%",gap:16}}>
-    {/* Phase 1: Current tools - they organize but dont run */}
-    <div style={{opacity:phase>=1?1:0,transform:phase>=1?"translateY(0)":"translateY(20px)",transition:"all 0.7s",display:"flex",flexDirection:"column",alignItems:"center",gap:10}}>
-      <div style={{color:T2,fontSize:11,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.08em"}}>Current tools</div>
-      <div style={{display:"flex",gap:8,flexWrap:"wrap",justifyContent:"center"}}>
-        {tools.map((t,i)=><div key={i} style={{padding:"6px 14px",background:CD,border:"1px solid "+BR,borderRadius:6,color:T2,fontSize:12,fontWeight:500}}>{t}</div>)}
+  const chaos=["Quote spreadsheet","Client texts","Invoice template","Google calendar","Pricing PDF","Sub contacts","Checklist notepad","QuickBooks","Permit tracker","Material receipts","Employee hours","Scope notes"];
+  return <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",height:"100%"}}>
+    {/* Phase 1: Chaos cloud */}
+    <div style={{position:"relative",width:"100%",maxWidth:700,height:phase>=2?0:240,overflow:"hidden",transition:"height 1s cubic-bezier(0.4,0,0.2,1)"}}>
+      <div style={{display:"flex",flexWrap:"wrap",gap:6,justifyContent:"center",padding:10,opacity:phase>=2?0:1,transition:"opacity 0.8s"}}>
+        {chaos.map((c,i)=>{
+          const rot=(Math.random()*16-8);const colors=[R,A,B,T2,P];
+          return <div key={i} style={{
+            padding:"5px 10px",background:CD,border:"1px solid "+colors[i%5]+"44",borderRadius:4,
+            color:colors[i%5],fontSize:10,fontWeight:500,
+            transform:phase>=1?`rotate(${rot}deg) translate(${Math.random()*8-4}px, ${Math.random()*8-4}px)`:"scale(0)",
+            opacity:phase>=1&&phase<2?0.8:0,transition:`all 0.5s ${i*60}ms cubic-bezier(0.4,0,0.2,1)`,
+          }}>{c}</div>
+        })}
       </div>
-      <div style={{padding:"8px 20px",background:R+"18",border:"1px solid "+R+"44",borderRadius:8,color:R,fontSize:13,fontWeight:700,marginTop:4}}>Organize information only</div>
+      {phase>=1&&phase<2&&<div style={{position:"absolute",bottom:0,left:0,right:0,textAlign:"center"}}>
+        <span style={{color:R,fontSize:13,fontWeight:600}}>This is how most contractors run their business.</span>
+      </div>}
     </div>
-    {/* Phase 2: Arrow + gap */}
-    <div style={{opacity:phase>=2?1:0,transition:"opacity 0.6s",display:"flex",flexDirection:"column",alignItems:"center",gap:4}}>
-      <div style={{width:2,height:30,background:BR}}/>
-      <div style={{color:T2,fontSize:11,fontStyle:"italic"}}>vs</div>
-      <div style={{width:2,height:30,background:BR}}/>
-    </div>
-    {/* Phase 3: Throne */}
-    <div style={{opacity:phase>=3?1:0,transform:phase>=3?"scale(1)":"scale(0.9)",transition:"all 0.7s",display:"flex",flexDirection:"column",alignItems:"center",gap:8}}>
-      <div style={{display:"flex",alignItems:"center",gap:10,padding:"14px 28px",background:`linear-gradient(135deg, ${A}22, ${G}15)`,border:"2px solid "+A,borderRadius:12}}>
-        <Crown size={24} color={A}/>
-        <span style={{fontSize:24,fontWeight:800,color:TX,fontFamily:"Georgia,serif",letterSpacing:"0.06em"}}>THRONE</span>
+    {/* Phase 2: Throne - clean, simple, like cheating */}
+    <div style={{opacity:phase>=2?1:0,transform:phase>=2?"translateY(0) scale(1)":"translateY(40px) scale(0.9)",transition:"all 0.8s cubic-bezier(0.16,1,0.3,1)",display:"flex",flexDirection:"column",alignItems:"center",gap:12}}>
+      <div style={{display:"flex",alignItems:"center",gap:12,padding:"18px 36px",background:`linear-gradient(135deg, ${A}15, ${G}10)`,border:"2px solid "+A,borderRadius:16}}>
+        <Crown size={28} color={A}/>
+        <span style={{fontSize:28,fontWeight:800,color:TX,fontFamily:"Georgia,serif",letterSpacing:"0.08em"}}>THRONE</span>
       </div>
-      <div style={{display:"flex",gap:8}}>
-        {["Organizes","Compiles","Operates","Thinks"].map((w,i)=>
-          <div key={i} style={{padding:"5px 12px",background:G+"18",border:"1px solid "+G+"44",borderRadius:6,color:G,fontSize:11,fontWeight:700}}>{w}</div>
+      <div style={{display:"flex",gap:6,flexWrap:"wrap",justifyContent:"center"}}>
+        {[
+          {t:"Quote in 90 seconds",c:G},{t:"Pricing always accurate",c:A},
+          {t:"AI that knows your numbers",c:P},{t:"Everything in one place",c:B},
+        ].map((w,i)=>
+          <FadeIn key={i} delay={200+i*200} from="below">
+            <div style={{padding:"6px 14px",background:w.c+"15",border:"1px solid "+w.c+"33",borderRadius:8,color:w.c,fontSize:12,fontWeight:600}}>{w.t}</div>
+          </FadeIn>
         )}
       </div>
+      <FadeIn delay={1200} from="below">
+        <div style={{marginTop:8,color:T2,fontSize:14,fontStyle:"italic",textAlign:"center"}}>Same business. Fraction of the effort. It feels like cheating.</div>
+      </FadeIn>
     </div>
   </div>;
 }
@@ -252,56 +274,55 @@ function SlideLayers1(){
   </div>;
 }
 
-// ===== SLIDE 6: THREE LAYERS v2 (concentric) =====
+// ===== SLIDE 6: THREE LAYERS v2 (concentric, center-out) =====
 function SlideLayers2(){
-  const[pulse,setPulse]=useState(0);
-  useEffect(()=>{const i=setInterval(()=>setPulse(p=>(p+1)%3),1500);return()=>clearInterval(i)},[]);
+  const[pulse,setPulse]=useState(-1);
+  useEffect(()=>{
+    const t0=setTimeout(()=>setPulse(0),500);
+    const t1=setTimeout(()=>setPulse(1),1500);
+    const t2=setTimeout(()=>setPulse(2),2500);
+    const loop=setInterval(()=>{setPulse(-1);setTimeout(()=>setPulse(0),300);setTimeout(()=>setPulse(1),1300);setTimeout(()=>setPulse(2),2300)},4500);
+    return()=>{clearTimeout(t0);clearTimeout(t1);clearTimeout(t2);clearInterval(loop)};
+  },[]);
   const ringStyle=(layer,baseR)=>{
     const colors=[B,A,G];
     const on=pulse>=layer;
     return {
-      position:"absolute",
-      width:baseR*2,height:baseR*2,
-      borderRadius:"50%",
-      border:"2px solid "+(on?colors[layer]:BR),
-      background:on?colors[layer]+"12":"transparent",
-      top:"50%",left:"50%",
-      transform:`translate(-50%,-50%) scale(${on?1:0.95})`,
-      transition:"all 0.6s cubic-bezier(0.4,0,0.2,1)",
-      display:"flex",alignItems:"center",justifyContent:"center",
+      position:"absolute",width:baseR*2,height:baseR*2,borderRadius:"50%",
+      border:"2px solid "+(on?colors[layer]:BR),background:on?colors[layer]+"12":"transparent",
+      top:"50%",left:"50%",transform:`translate(-50%,-50%) scale(${on?1:0.92})`,
+      transition:"all 0.6s cubic-bezier(0.4,0,0.2,1)",display:"flex",alignItems:"center",justifyContent:"center",
     };
   };
   return <div style={{display:"flex",gap:24,alignItems:"center",height:"100%"}}>
-    {/* Left: concentric visual */}
     <div style={{position:"relative",width:320,height:320,flexShrink:0}}>
-      {/* L1 outer */}
-      <div style={ringStyle(0,155)}>
-        <span style={{position:"absolute",top:12,left:"50%",transform:"translateX(-50%)",color:B,fontSize:10,fontWeight:700}}>L1 — Your data</span>
+      {/* L3 outer (AI agents) */}
+      <div style={ringStyle(2,155)}>
+        <span style={{position:"absolute",top:12,left:"50%",transform:"translateX(-50%)",color:G,fontSize:10,fontWeight:700}}>L3 — AI agents</span>
       </div>
-      {/* Data labels around outer ring */}
-      {[{t:"Pricing",x:30,y:60},{t:"SOPs",x:10,y:150},{t:"Services",x:30,y:240},{t:"Clients",x:230,y:60},{t:"Team",x:255,y:150},{t:"History",x:230,y:240}].map((d,i)=>
-        <div key={i} style={{position:"absolute",left:d.x,top:d.y,padding:"2px 6px",background:B+"18",border:"1px solid "+B+"33",borderRadius:4,color:B,fontSize:8,fontWeight:600}}>{d.t}</div>
+      {/* Agent labels around outer ring */}
+      {[{t:"Drift Engine",x:20,y:60},{t:"Dispatch",x:5,y:150},{t:"Compliance",x:20,y:240},{t:"Service Plans",x:225,y:60},{t:"Scheduling",x:240,y:150},{t:"Reporting",x:225,y:240}].map((d,i)=>
+        <div key={i} style={{position:"absolute",left:d.x,top:d.y,padding:"2px 6px",background:G+"18",border:"1px solid "+G+"33",borderRadius:4,color:G,fontSize:8,fontWeight:600}}>{d.t}</div>
       )}
-      {/* L2 middle */}
+      {/* L2 middle (formulas) */}
       <div style={ringStyle(1,100)}>
         <span style={{position:"absolute",top:10,left:"50%",transform:"translateX(-50%)",color:A,fontSize:10,fontWeight:700,whiteSpace:"nowrap"}}>L2 — Formulas</span>
       </div>
-      {/* L3 core */}
-      <div style={ringStyle(2,50)}>
+      {/* L1 core (your data) */}
+      <div style={ringStyle(0,50)}>
         <div style={{textAlign:"center"}}>
-          <Bot size={16} color={G}/>
-          <div style={{color:G,fontSize:8,fontWeight:700,marginTop:2}}>9 Agents</div>
+          <Database size={16} color={B}/>
+          <div style={{color:B,fontSize:8,fontWeight:700,marginTop:2}}>Your data</div>
         </div>
       </div>
     </div>
-    {/* Right: explanation */}
     <div style={{flex:1,display:"flex",flexDirection:"column",gap:10}}>
       <Badge color={A}>How it connects</Badge>
-      <h2 style={{fontSize:22,fontWeight:700,color:TX,margin:"4px 0 8px",fontFamily:"Georgia,serif"}}>Data in. Intelligence out.</h2>
+      <h2 style={{fontSize:22,fontWeight:700,color:TX,margin:"4px 0 8px",fontFamily:"Georgia,serif"}}>Starts with your data. Ends with AI.</h2>
       {[
-        {n:"Outer ring",t:"Your data wraps everything",d:"Pricing, services, SOPs, clients, team — organized in Layer 1. The $2K setup builds this.",c:B},
-        {n:"Middle ring",t:"Formulas compile it",d:"Industry-specific formulas turn 3 inputs into complete outputs — quotes, schedules, checklists.",c:A},
-        {n:"Core",t:"AI acts on it",d:"9 agents powered by your real data. Drift detection, service plans, automation.",c:G},
+        {t:"Core — your data, organized",d:"Pricing, services, SOPs, clients, team. The foundation everything else is built on. The $2K setup builds this.",c:B},
+        {t:"Formulas compile it",d:"Industry-specific formulas turn 3 inputs into complete outputs — quotes, schedules, checklists, materials.",c:A},
+        {t:"AI agents act outward",d:"9 agents powered by compiled data. Drift detection, service plans, scheduling, automation — all acting on real numbers.",c:G},
       ].map((l,i)=>
         <FadeIn key={i} delay={400+i*300} from="left">
           <div style={{display:"flex",alignItems:"flex-start",gap:10,padding:"8px 10px",background:pulse>=i?l.c+"10":"transparent",borderRadius:8,borderLeft:"3px solid "+l.c,transition:"background 0.4s"}}>
@@ -315,8 +336,8 @@ function SlideLayers2(){
       )}
       <FadeIn delay={1400} from="below">
         <div style={{display:"flex",gap:6,marginTop:4}}>
-          {["Data flows inward","Intelligence flows outward"].map((t,i)=>
-            <div key={i} style={{padding:"4px 10px",background:i===0?B+"15":G+"15",borderRadius:6,color:i===0?B:G,fontSize:10,fontWeight:600}}>{i===0?"\u2192":"\u2190"} {t}</div>
+          {["Data starts at the core","Intelligence radiates outward"].map((t,i)=>
+            <div key={i} style={{padding:"4px 10px",background:i===0?B+"15":G+"15",borderRadius:6,color:i===0?B:G,fontSize:10,fontWeight:600}}>{i===0?"\u25C9":"\u2192"} {t}</div>
           )}
         </div>
       </FadeIn>
@@ -529,13 +550,13 @@ function SlidePricing(){
 
 // ===== SLIDE 11: COMPETITION =====
 function SlideCompetition(){
-  const features=["Formula compilation","Pricebook Drift Engine","Multi-rail payments","AI with real data context","Bill line-item allocation","Built-in HR suite","Open API","11-min setup"];
+  const features=["Formula compilation","Pricebook Drift Engine","AI with real data context","Built-in HR suite","Open API","11-min setup"];
   const comps=[
-    {n:"Throne",p:"$100-500",vals:[1,1,1,1,1,1,1,1],c:A,highlight:true},
-    {n:"Buildertrend",p:"$499+",vals:[0,0,0,0,0,0,0,0],c:T2},
-    {n:"ServiceTitan",p:"$500+",vals:[0,0,0,0.5,0,0,0.5,0],c:T2},
-    {n:"Jobber",p:"$69-349",vals:[0,0,0,0,0,0,0,0],c:T2},
-    {n:"HubSpot",p:"$800+",vals:[0,0,0,0,0,0,0.5,0],c:T2},
+    {n:"Throne",p:"$100-500",vals:[1,1,1,1,1,1],c:A,highlight:true},
+    {n:"Buildertrend",p:"$499+",vals:[0,0,0,0,0,0],c:T2},
+    {n:"ServiceTitan",p:"$500+",vals:[0,0,0.5,0,0.5,0],c:T2},
+    {n:"Jobber",p:"$69-349",vals:[0,0,0,0,0,0],c:T2},
+    {n:"HubSpot",p:"$800+",vals:[0,0,0,0,0.5,0],c:T2},
   ];
   return <div style={{display:"flex",flexDirection:"column",justifyContent:"center",height:"100%"}}>
     <Badge color={A}>Competition</Badge>
@@ -573,8 +594,9 @@ function SlideCompetition(){
           <div style={{color:T2,fontSize:9}}>addressable/yr</div>
         </Card>
         <Card style={{flex:1,textAlign:"center",padding:10}}>
-          <div style={{color:R,fontSize:9,fontWeight:600}}>#1 complaint</div>
-          <div style={{color:T2,fontSize:8}}>CRMs take as much time to manage as they save</div>
+          <div style={{color:R,fontSize:12,fontWeight:700}}>#1 complaint</div>
+          <div style={{color:TX,fontSize:11,marginTop:4}}>CRMs take as much time to manage as they save.</div>
+          <div style={{color:A,fontSize:11,fontWeight:600,marginTop:4}}>Throne takes 11 min to set up.</div>
         </Card>
       </div>
     </FadeIn>
