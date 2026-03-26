@@ -74,7 +74,7 @@ function SlideTitle(){
     <FadeIn delay={100} from="above"><Crown size={56} color={A}/></FadeIn>
     <FadeIn delay={250} from="none"><div style={{fontSize:52,fontWeight:800,color:TX,letterSpacing:"0.12em",fontFamily:"Georgia,serif",textAlign:"center"}}>THRONE</div></FadeIn>
     <ExpandLine delay={500} color={A} width={100} height={3}/>
-    <FadeIn delay={700} from="below"><div style={{fontSize:18,color:T2,marginTop:6,textAlign:"center"}}>The operating system that works as hard as you.</div></FadeIn>
+    <FadeIn delay={700} from="below"><div style={{fontSize:18,color:T2,marginTop:6,textAlign:"center"}}>The OS that works as hard as you.</div></FadeIn>
     <FadeIn delay={900} from="below"><div style={{fontSize:12,color:T2,marginTop:16}}>Ezra Hoehne · Spencer Walraven · Chase Brink</div></FadeIn>
   </div>;
 }
@@ -115,44 +115,46 @@ function SlideProblem(){
 
 // ===== SLIDE 3: MEET MARCUS =====
 function SlideMarcus(){
-  const stats=[
-    {icon:<Clock size={16}/>,label:"Quoting",val:"45 min",sub:"per quote, manually",c:R},
-    {icon:<DollarSign size={16}/>,label:"Margin Bleed",val:"$16K",sub:"lost per year to drift",c:A},
-    {icon:<Wrench size={16}/>,label:"Tools",val:"4",sub:"disconnected systems",c:B},
-    {icon:<Clock size={16}/>,label:"Admin",val:"12 hrs",sub:"per week on overhead",c:P},
+  const lines=[
+    {t:"$1.2M contractor. Handyman + roofing. 14 people.",c:G},
+    {t:"Quoting takes 45 min. Pricing has been wrong for months.",c:A},
+    {t:"4 disconnected tools. None of them think.",c:B},
   ];
   return <div style={{display:"flex",gap:24,alignItems:"center",height:"100%"}}>
     <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center"}}>
-      <FadeIn delay={100} from="left"><Badge color={A}>This is Marcus</Badge></FadeIn>
-      <FadeIn delay={250} from="left"><h2 style={{fontSize:28,fontWeight:700,color:TX,margin:"8px 0 6px",fontFamily:"Georgia,serif",lineHeight:1.2}}>$1.2M contractor. Handyman + roofing. 14 people.</h2></FadeIn>
-      <FadeIn delay={400} from="left"><p style={{color:T2,fontSize:14,lineHeight:1.6,margin:"0 0 16px",maxWidth:420}}>He figured out the work. He built a reputation. But now his business is running him — and the tools he has aren't keeping up.</p></FadeIn>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
-        {stats.map((s,i)=>
-          <FadeIn key={i} delay={600+i*150} from="below">
-            <Card style={{padding:"10px 12px",borderLeft:"3px solid "+s.c}}>
-              <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:4}}>
-                <span style={{color:s.c}}>{s.icon}</span>
-                <span style={{color:T2,fontSize:9,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.05em"}}>{s.label}</span>
-              </div>
-              <div style={{color:s.c,fontSize:22,fontWeight:800,fontFamily:"Georgia,serif"}}>{s.val}</div>
-              <div style={{color:T2,fontSize:10}}>{s.sub}</div>
-            </Card>
+      <FadeIn delay={100} from="left"><div style={{color:A,fontSize:15,fontWeight:600,marginBottom:8}}>Meet Marcus</div></FadeIn>
+      <FadeIn delay={200} from="left"><h2 style={{fontSize:32,fontWeight:700,color:TX,margin:"0 0 20px",fontFamily:"Georgia,serif",lineHeight:1.2}}>His business is running him.</h2></FadeIn>
+      <div style={{display:"flex",flexDirection:"column",gap:12}}>
+        {lines.map((l,i)=>
+          <FadeIn key={i} delay={350+i*200} from="left">
+            <div style={{display:"flex",alignItems:"center",gap:12}}>
+              <div style={{width:5,height:36,background:l.c,borderRadius:3,flexShrink:0}}/>
+              <span style={{color:TX,fontSize:17,fontWeight:600}}>{l.t}</span>
+            </div>
           </FadeIn>
         )}
       </div>
     </div>
-    <FadeIn delay={500} from="right">
-      <div style={{width:200,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:6}}>
-        <div style={{position:"relative",width:140,height:140,display:"flex",alignItems:"center",justifyContent:"center"}}>
-          <Ring value={85} max={100} color={R} size={140} delay={700}/>
+    <div style={{display:"flex",flexDirection:"column",gap:20,width:200,alignItems:"center",justifyContent:"center"}}>
+      <FadeIn delay={500} from="right">
+        <div style={{position:"relative",width:100,height:100,display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <Ring value={12} max={16} color={R} size={100} delay={600}/>
           <div style={{position:"absolute",textAlign:"center"}}>
-            <div style={{color:R,fontSize:32,fontWeight:800,fontFamily:"Georgia,serif"}}>85%</div>
-            <div style={{color:T2,fontSize:9}}>of his week is<br/>NOT doing the work</div>
+            <CountUp end={12} delay={700} color={R} size={28} suffix="hrs"/>
+            <div style={{color:T2,fontSize:8}}>/week</div>
           </div>
         </div>
-        <div style={{color:T2,fontSize:10,textAlign:"center",lineHeight:1.4,marginTop:8,fontStyle:"italic"}}>"I started this company to build things. Now I just manage paperwork."</div>
-      </div>
-    </FadeIn>
+      </FadeIn>
+      <FadeIn delay={700} from="right">
+        <div style={{position:"relative",width:100,height:100,display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <Ring value={16} max={20} color={A} size={100} delay={800}/>
+          <div style={{position:"absolute",textAlign:"center"}}>
+            <CountUp end={16} delay={900} prefix="$" suffix="K" color={A} size={24}/>
+            <div style={{color:T2,fontSize:8}}>lost/year</div>
+          </div>
+        </div>
+      </FadeIn>
+    </div>
   </div>;
 }
 
@@ -169,21 +171,21 @@ function SlideAnswer(){
     <div style={{maxWidth:680,margin:"0 auto",width:"100%"}}>
       <div style={{opacity:phase>=1?1:0,transform:phase>=1?"translateY(0)":"translateY(20px)",transition:"all 0.8s cubic-bezier(0.4,0,0.2,1)"}}>
         <p style={{fontSize:18,color:T2,lineHeight:1.7,margin:"0 0 20px",fontFamily:"Georgia,serif"}}>
-          I've been building these systems by hand for years. For every client, I come in, organize their pricing, write their SOPs, build their workflows — and charge $20,000 to do it.
+          My consulting company goes into businesses like Marcus's and builds their systems from scratch — pricing, SOPs, workflows, reporting. We organize the chaos and get them running efficiently.
         </p>
       </div>
       <div style={{opacity:phase>=2?1:0,transform:phase>=2?"translateY(0)":"translateY(20px)",transition:"all 0.8s cubic-bezier(0.4,0,0.2,1)"}}>
         <p style={{fontSize:18,color:T2,lineHeight:1.7,margin:"0 0 24px",fontFamily:"Georgia,serif"}}>
-          The problem? <span style={{color:R,fontWeight:700}}>The moment I leave, it starts falling apart.</span> They go back to the spreadsheets. The SOPs collect dust. The pricing drifts.
+          But here's what I kept running into: <span style={{color:R,fontWeight:700}}>there is no software that actually helps run the company.</span> Every tool I've tried just organizes information. None of them think, compile, or operate the way the business actually works.
         </p>
       </div>
       <div style={{opacity:phase>=3?1:0,transform:phase>=3?"translateY(0)":"translateY(20px)",transition:"all 0.8s cubic-bezier(0.4,0,0.2,1)"}}>
         <div style={{borderLeft:"4px solid "+A,paddingLeft:20}}>
           <p style={{fontSize:22,color:TX,lineHeight:1.5,margin:0,fontFamily:"Georgia,serif",fontWeight:700}}>
-            So I built the platform that makes it permanent.
+            So I built it.
           </p>
           <p style={{fontSize:14,color:A,marginTop:8,fontWeight:600}}>
-            The consulting gets them set up. Throne keeps it running forever.
+            Throne doesn't just organize — it operates. And my consulting makes it even more powerful.
           </p>
         </div>
       </div>
@@ -243,11 +245,11 @@ function SlideFirstDay(){
     {l:"First Quote Sent",d:"Formula-compiled, client-ready. 11 minutes after signing in."},
   ];
   useEffect(()=>{if(step<ob.length-1){const t=setTimeout(()=>setStep(s=>s+1),700);return()=>clearTimeout(t)}},[step]);
-  return <div style={{display:"flex",gap:16,alignItems:"stretch",height:"100%"}}>
+  return <div style={{display:"flex",gap:16,alignItems:"center",height:"100%"}}>
     <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center"}}>
       <Badge color={G}>Marcus's First Day</Badge>
       <h2 style={{fontSize:20,fontWeight:700,color:TX,margin:"6px 0 4px",fontFamily:"Georgia,serif"}}>Setup to first quote — 11 minutes.</h2>
-      <p style={{color:T2,fontSize:11,margin:"0 0 10px"}}>The $2,000 setup is phase one of our consulting. We do what used to take weeks.</p>
+      <p style={{color:T2,fontSize:11,margin:"0 0 10px"}}>The $2,000 setup is phase one of our consulting. We transform everything you have scattered across spreadsheets, PDFs, and your head into one system that operates efficiently in Throne.</p>
       <Card style={{padding:"8px 12px"}}>
         <div style={{display:"flex",flexDirection:"column",gap:0}}>
           {ob.map((o,i)=>{const d=i<=step;const active=i===step;return <div key={i} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 8px",background:active?G+"11":"transparent",borderRadius:4,opacity:d?1:0.2,transition:"all 0.3s"}}>
@@ -271,7 +273,10 @@ function SlideFirstDay(){
         </div>
         <div style={{background:R+"11",borderRadius:8,padding:10,border:"1px solid "+R+"33",textAlign:"center",width:"100%"}}>
           <div style={{color:R,fontSize:11,fontWeight:700}}>Other platforms?</div>
-          <div style={{color:T2,fontSize:10}}>Weeks to months. And they don't compile your existing data.</div>
+          <div style={{color:T2,fontSize:10}}>Weeks to months of setup — and none of them transform your existing operations into one unified system.</div>
+        </div>
+        <div style={{background:B+"11",borderRadius:8,padding:8,border:"1px solid "+B+"33",textAlign:"center",width:"100%"}}>
+          <div style={{color:T2,fontSize:9}}>*11 min when your reporting is organized and ready to upload.</div>
         </div>
       </div>
     </FadeIn>}
@@ -423,7 +428,7 @@ function SlideAfterJob(){
     </div>
     <FadeIn delay={400} from="below">
       <div style={{marginTop:10,padding:"6px 12px",background:P+"11",borderRadius:6,border:"1px solid "+P+"33"}}>
-        <span style={{color:P,fontSize:10,fontWeight:600}}>This only works because Throne has Marcus's real data in L1, compiled through real Formulas in L2. Generic AI can't do this.</span>
+        <span style={{color:P,fontSize:10,fontWeight:600}}>Throne's AI-friendly data organization and advanced Formula engine create the foundation that takes AI from generic to extraordinary — purpose-built for your business.</span>
       </div>
     </FadeIn>
   </div>;
@@ -501,11 +506,11 @@ function SlideClose(){
     <FadeIn delay={100} from="above"><Crown size={52} color={A}/></FadeIn>
     <FadeIn delay={250} from="none"><div style={{fontSize:48,fontWeight:800,color:TX,letterSpacing:"0.1em",fontFamily:"Georgia,serif",textAlign:"center"}}>THRONE</div></FadeIn>
     <ExpandLine delay={450} color={A} width={80} height={3}/>
-    <FadeIn delay={650} from="below"><div style={{fontSize:17,color:T2,marginTop:8,textAlign:"center",fontStyle:"italic",lineHeight:1.4}}>The consulting gets them set up.<br/>The platform keeps them forever.</div></FadeIn>
+    <FadeIn delay={650} from="below"><div style={{fontSize:17,color:T2,marginTop:8,textAlign:"center",fontStyle:"italic",lineHeight:1.4}}>The OS that works as hard as you.</div></FadeIn>
     <FadeIn delay={850} from="below">
       <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8,marginTop:16}}>
         <div style={{fontSize:14,color:TX,fontWeight:700}}>We're raising to build through beta and reach paying customers.</div>
-        <div style={{fontSize:13,color:A,fontWeight:600}}>ezra@thronesystem.com</div>
+        <div style={{fontSize:13,color:A,fontWeight:600}}>121brandaz@gmail.com</div>
       </div>
     </FadeIn>
     <FadeIn delay={1050} from="below"><div style={{fontSize:12,color:T2,marginTop:8}}>Ezra Hoehne · Spencer Walraven · Chase Brink</div></FadeIn>
