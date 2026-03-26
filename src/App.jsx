@@ -301,7 +301,7 @@ function SlideLayers1(){
       <div style={{width:20,flexShrink:0}}/>
       <div style={{width:95,flexShrink:0}}/>
     </div>
-    <FadeIn delay={2800} from="below">
+    <FadeIn delay={1400} from="below">
       <div style={{display:"flex",alignItems:"center",gap:8,marginTop:12,padding:"8px 14px",background:A+"11",borderRadius:8,border:"1px solid "+A+"33"}}>
         <Shield size={14} color={A}/>
         <span style={{color:A,fontSize:11,fontWeight:600}}>We offer a $2K setup to build Layer 1 for companies that need help organizing their operations — saving weeks of work.</span>
