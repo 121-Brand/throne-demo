@@ -6,7 +6,6 @@ const A="#D4A843",G="#34D399",R="#F87171",B="#60A5FA",P="#A78BFA",BG="#0D0F13",C
 const steps=[
   {id:"title",label:"Throne",sec:"Intro"},
   {id:"problem",label:"The Problem",sec:"Intro"},
-  {id:"marcus",label:"Meet Marcus",sec:"Intro"},
   {id:"answer",label:"The Answer",sec:"Solution"},
   {id:"layers1",label:"Three Layers",sec:"Solution"},
   {id:"firstday",label:"First Day",sec:"Product"},
@@ -241,7 +240,7 @@ function SlideLayers1(){
     {/* Pipeline row */}
     <div style={{display:"flex",alignItems:"center",gap:0,width:"100%"}}>
       {/* Input */}
-      <div style={{width:85,display:"flex",flexDirection:"column",gap:4,flexShrink:0}}>
+      <div style={{width:80,display:"flex",flexDirection:"column",gap:4,flexShrink:0}}>
         {["Spreadsheets","PDFs","Knowledge"].map((s,i)=>
           <FadeIn key={i} delay={300+i*100} from="left">
             <div style={{padding:"4px 6px",background:CD,border:"1px solid "+BR,borderRadius:4,color:T2,fontSize:8,textAlign:"center"}}>{s}</div>
@@ -262,7 +261,7 @@ function SlideLayers1(){
         <div style={{color:active>=1?A:T2}}><Cpu size={14}/></div>
         <div style={{color:active>=1?A:T2,fontSize:9,fontWeight:700}}>L2</div>
         <div style={{color:active>=1?TX:T2,fontSize:12,fontWeight:700,fontFamily:"Georgia,serif"}}>Compiled</div>
-        <div style={{color:T2,fontSize:7}}>3 inputs \u2192 full package</div>
+        <div style={{color:T2,fontSize:7}}>3 inputs {"\u2192"} full package</div>
       </div>
       <div style={{color:active>=2?G:BR,fontSize:14,margin:"0 3px",transition:"color 0.5s"}}>{"\u2192"}</div>
       {/* L3 */}
@@ -272,36 +271,35 @@ function SlideLayers1(){
         <div style={{color:active>=2?TX:T2,fontSize:12,fontWeight:700,fontFamily:"Georgia,serif"}}>Operated</div>
         <div style={{color:T2,fontSize:7}}>9 AI agents</div>
       </div>
+      {/* L3 outputs to the right */}
+      <div style={{opacity:active>=2?1:0,transition:"opacity 0.5s",display:"flex",alignItems:"center",margin:"0 3px"}}>
+        <span style={{color:G,fontSize:14}}>{"\u2192"}</span>
+      </div>
+      <div style={{width:95,display:"flex",flexDirection:"column",gap:4,flexShrink:0,opacity:active>=2?1:0,transition:"opacity 0.5s"}}>
+        {["Marketing","Scheduling","Drift detection"].map((s,i)=>
+          <div key={i} style={{padding:"5px 8px",background:G+"15",border:"1px solid "+G+"44",borderRadius:6,color:G,fontSize:9,textAlign:"center",fontWeight:600}}>{s}</div>
+        )}
+      </div>
     </div>
-    {/* L2 outputs (appear after L2 lights up, before L3) */}
-    <div style={{display:"flex",alignItems:"flex-start",gap:0,width:"100%",marginTop:8}}>
-      <div style={{width:85,flexShrink:0}}/>
+    {/* L2 outputs below L2 with arrow */}
+    <div style={{display:"flex",width:"100%",marginTop:4}}>
+      <div style={{width:80,flexShrink:0}}/>
       <div style={{width:20,flexShrink:0}}/>
       <div style={{flex:1}}/>
       <div style={{width:20,flexShrink:0}}/>
-      {/* L2 output area */}
-      <div style={{flex:1,opacity:active>=1?1:0,transition:"opacity 0.5s"}}>
-        <div style={{display:"flex",alignItems:"center",justifyContent:"center",marginBottom:4}}>
-          <span style={{color:A,fontSize:14}}>{"\u2193"}</span>
-        </div>
-        <div style={{display:"flex",flexWrap:"wrap",gap:3,justifyContent:"center"}}>
-          {["Job scope","Materials","Schedule","Checklist","Warranty"].map((s,i)=>
-            <div key={i} style={{padding:"3px 7px",background:A+"12",border:"1px solid "+A+"33",borderRadius:10,color:A,fontSize:7,fontWeight:600}}>{s}</div>
+      {/* Centered under L2 */}
+      <div style={{flex:1,opacity:active>=1?1:0,transition:"opacity 0.5s",display:"flex",flexDirection:"column",alignItems:"center"}}>
+        <span style={{color:A,fontSize:14}}>{"\u2193"}</span>
+        <div style={{display:"flex",gap:4}}>
+          {["Job scope","Materials","Checklist"].map((s,i)=>
+            <div key={i} style={{padding:"5px 8px",background:A+"12",border:"1px solid "+A+"33",borderRadius:6,color:A,fontSize:9,fontWeight:600}}>{s}</div>
           )}
         </div>
       </div>
       <div style={{width:20,flexShrink:0}}/>
-      {/* L3 output area */}
-      <div style={{flex:1,opacity:active>=2?1:0,transition:"opacity 0.5s"}}>
-        <div style={{display:"flex",alignItems:"center",justifyContent:"center",marginBottom:4}}>
-          <span style={{color:G,fontSize:14}}>{"\u2193"}</span>
-        </div>
-        <div style={{display:"flex",flexWrap:"wrap",gap:3,justifyContent:"center"}}>
-          {["Marketing","Pricing checks","Scheduling","Service plans","Drift detection"].map((s,i)=>
-            <div key={i} style={{padding:"3px 7px",background:G+"12",border:"1px solid "+G+"33",borderRadius:10,color:G,fontSize:7,fontWeight:600}}>{s}</div>
-          )}
-        </div>
-      </div>
+      <div style={{flex:1}}/>
+      <div style={{width:20,flexShrink:0}}/>
+      <div style={{width:95,flexShrink:0}}/>
     </div>
     <FadeIn delay={2800} from="below">
       <div style={{display:"flex",alignItems:"center",gap:8,marginTop:12,padding:"8px 14px",background:A+"11",borderRadius:8,border:"1px solid "+A+"33"}}>
@@ -601,7 +599,7 @@ export default function App(){
   const toggleFs=()=>{if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});setFs(true)}else{document.exitFullscreen();setFs(false)}};
   const render=()=>{
     switch(steps[cur].id){
-      case"title":return <SlideTitle/>;case"problem":return <SlideProblem/>;case"marcus":return <SlideMarcus/>;
+      case"title":return <SlideTitle/>;case"problem":return <SlideProblem/>;
       case"answer":return <SlideAnswer/>;case"layers1":return <SlideLayers1/>;
       case"firstday":return <SlideFirstDay/>;case"formula":return <SlideFormula/>;case"afterjob":return <SlideAfterJob/>;
       case"pricing":return <SlidePricing/>;case"competition":return <SlideCompetition/>;case"close":return <SlideClose/>;
