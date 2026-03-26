@@ -304,7 +304,7 @@ function SlideLayers1(){
     <FadeIn delay={2800} from="below">
       <div style={{display:"flex",alignItems:"center",gap:8,marginTop:12,padding:"8px 14px",background:A+"11",borderRadius:8,border:"1px solid "+A+"33"}}>
         <Shield size={14} color={A}/>
-        <span style={{color:A,fontSize:11,fontWeight:600}}>The $2K setup builds Layer 1 for you. The consulting makes Throne even more powerful.</span>
+        <span style={{color:A,fontSize:11,fontWeight:600}}>We offer a $2K setup to build Layer 1 for companies that need help organizing their operations — saving weeks of work.</span>
       </div>
     </FadeIn>
   </div>;
