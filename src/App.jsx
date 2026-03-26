@@ -115,6 +115,11 @@ function SlideProblem(){
           </div>
         </div>
       </FadeIn>}
+      {shown>=5&&<FadeIn delay={800} from="below">
+        <div style={{marginTop:16,marginLeft:40,paddingLeft:14}}>
+          <div style={{fontSize:18,fontWeight:700,color:G,fontFamily:"Georgia,serif"}}>It doesn't have to be like this.</div>
+        </div>
+      </FadeIn>}
     </div>
   </div>;
 }
@@ -169,47 +174,50 @@ function SlideAnswer(){
   const[phase,setPhase]=useState(0);
   useEffect(()=>{
     const t1=setTimeout(()=>setPhase(1),400);
-    const t2=setTimeout(()=>setPhase(2),2000);
+    const t2=setTimeout(()=>setPhase(2),1800);
     return()=>{clearTimeout(t1);clearTimeout(t2)};
   },[]);
   const chaos=["Quote spreadsheet","Client texts","Invoice template","Google calendar","Pricing PDF","Sub contacts","Checklist notepad","QuickBooks","Permit tracker","Material receipts","Employee hours","Scope notes"];
-  return <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",height:"100%"}}>
-    {/* Phase 1: Chaos cloud */}
-    <div style={{position:"relative",width:"100%",maxWidth:700,height:phase>=2?0:240,overflow:"hidden",transition:"height 1s cubic-bezier(0.4,0,0.2,1)"}}>
-      <div style={{display:"flex",flexWrap:"wrap",gap:6,justifyContent:"center",padding:10,opacity:phase>=2?0:1,transition:"opacity 0.8s"}}>
-        {chaos.map((c,i)=>{
-          const rot=(Math.random()*16-8);const colors=[R,A,B,T2,P];
-          return <div key={i} style={{
-            padding:"5px 10px",background:CD,border:"1px solid "+colors[i%5]+"44",borderRadius:4,
-            color:colors[i%5],fontSize:10,fontWeight:500,
-            transform:phase>=1?`rotate(${rot}deg) translate(${Math.random()*8-4}px, ${Math.random()*8-4}px)`:"scale(0)",
-            opacity:phase>=1&&phase<2?0.8:0,transition:`all 0.5s ${i*60}ms cubic-bezier(0.4,0,0.2,1)`,
-          }}>{c}</div>
-        })}
+  const rots=[3,-5,7,-2,6,-4,2,-6,5,-3,4,-7];
+  const offX=[2,-3,4,-1,3,-2,1,-4,3,-2,2,-3];
+  const offY=[1,-2,3,-1,2,-3,1,-2,2,-1,3,-2];
+  return <div style={{display:"flex",gap:24,alignItems:"center",height:"100%"}}>
+    {/* LEFT: Solution */}
+    <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",opacity:phase>=2?1:0,transform:phase>=2?"translateX(0)":"translateX(-30px)",transition:"all 0.8s cubic-bezier(0.16,1,0.3,1)"}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,padding:"16px 24px",background:`linear-gradient(135deg, ${A}15, ${G}10)`,border:"2px solid "+A,borderRadius:14,marginBottom:14}}>
+        <Crown size={24} color={A}/>
+        <span style={{fontSize:24,fontWeight:800,color:TX,fontFamily:"Georgia,serif",letterSpacing:"0.06em"}}>THRONE</span>
       </div>
-      {phase>=1&&phase<2&&<div style={{position:"absolute",bottom:0,left:0,right:0,textAlign:"center"}}>
-        <span style={{color:R,fontSize:13,fontWeight:600}}>This is how most contractors run their business.</span>
-      </div>}
-    </div>
-    {/* Phase 2: Throne - clean, simple, like cheating */}
-    <div style={{opacity:phase>=2?1:0,transform:phase>=2?"translateY(0) scale(1)":"translateY(40px) scale(0.9)",transition:"all 0.8s cubic-bezier(0.16,1,0.3,1)",display:"flex",flexDirection:"column",alignItems:"center",gap:12}}>
-      <div style={{display:"flex",alignItems:"center",gap:12,padding:"18px 36px",background:`linear-gradient(135deg, ${A}15, ${G}10)`,border:"2px solid "+A,borderRadius:16}}>
-        <Crown size={28} color={A}/>
-        <span style={{fontSize:28,fontWeight:800,color:TX,fontFamily:"Georgia,serif",letterSpacing:"0.08em"}}>THRONE</span>
-      </div>
-      <div style={{display:"flex",gap:6,flexWrap:"wrap",justifyContent:"center"}}>
+      <div style={{display:"flex",flexDirection:"column",gap:6}}>
         {[
           {t:"Quote in 90 seconds",c:G},{t:"Pricing always accurate",c:A},
           {t:"AI that knows your numbers",c:P},{t:"Everything in one place",c:B},
         ].map((w,i)=>
-          <FadeIn key={i} delay={200+i*200} from="below">
-            <div style={{padding:"6px 14px",background:w.c+"15",border:"1px solid "+w.c+"33",borderRadius:8,color:w.c,fontSize:12,fontWeight:600}}>{w.t}</div>
+          <FadeIn key={i} delay={200+i*200} from="left">
+            <div style={{padding:"8px 14px",background:w.c+"12",borderLeft:"3px solid "+w.c,borderRadius:6,color:w.c,fontSize:13,fontWeight:600}}>{w.t}</div>
           </FadeIn>
         )}
       </div>
       <FadeIn delay={1200} from="below">
-        <div style={{marginTop:8,color:T2,fontSize:14,fontStyle:"italic",textAlign:"center"}}>Same business. Fraction of the effort. It feels like cheating.</div>
+        <div style={{marginTop:14,color:TX,fontSize:15,fontWeight:600,fontFamily:"Georgia,serif"}}>Same business. Fraction of the effort.</div>
+        <div style={{color:A,fontSize:13,fontWeight:600,marginTop:4,fontStyle:"italic"}}>It feels like cheating.</div>
       </FadeIn>
+    </div>
+    {/* RIGHT: Chaos (stays visible) */}
+    <div style={{width:340,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+      <div style={{color:T2,fontSize:10,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8,opacity:phase>=1?1:0,transition:"opacity 0.5s"}}>Without Throne</div>
+      <div style={{display:"flex",flexWrap:"wrap",gap:5,justifyContent:"center",padding:8,background:R+"08",borderRadius:12,border:"1px solid "+R+"22"}}>
+        {chaos.map((c,i)=>{
+          const colors=[R,A,B,T2,P];
+          return <div key={i} style={{
+            padding:"4px 8px",background:CD,border:"1px solid "+colors[i%5]+"33",borderRadius:4,
+            color:colors[i%5],fontSize:9,fontWeight:500,
+            transform:phase>=1?"rotate("+rots[i]+"deg) translate("+offX[i]+"px, "+offY[i]+"px)":"scale(0)",
+            opacity:phase>=1?0.85:0,transition:"all 0.5s "+(i*50)+"ms cubic-bezier(0.4,0,0.2,1)",
+          }}>{c}</div>
+        })}
+      </div>
+      <div style={{color:R,fontSize:11,fontWeight:600,marginTop:8,opacity:phase>=1?1:0,transition:"opacity 0.5s 0.6s"}}>Scattered. Manual. Fragile.</div>
     </div>
   </div>;
 }
@@ -225,46 +233,55 @@ function SlideLayers1(){
   },[]);
   const layers=[
     {n:"L1",t:"Organized",sub:"Pricing, SOPs, checklists, services",c:B,icon:<Database size={16}/>},
-    {n:"L2",t:"Compiled",sub:"3 inputs \u2192 full quote + schedule + materials",c:A,icon:<Cpu size={16}/>},
-    {n:"L3",t:"Operated",sub:"9 AI agents act on your real data",c:G,icon:<Bot size={16}/>},
+    {n:"L2",t:"Compiled",sub:"3 inputs \u2192 full output package",c:A,icon:<Cpu size={16}/>},
+    {n:"L3",t:"Operated",sub:"9 AI agents act on your data",c:G,icon:<Bot size={16}/>},
   ];
   return <div style={{display:"flex",flexDirection:"column",justifyContent:"center",height:"100%"}}>
     <FadeIn delay={100} from="below"><Badge color={A}>How Throne works</Badge></FadeIn>
-    <FadeIn delay={200} from="below"><h2 style={{fontSize:24,fontWeight:700,color:TX,margin:"8px 0 20px",fontFamily:"Georgia,serif"}}>Data flows through three layers.</h2></FadeIn>
+    <FadeIn delay={200} from="below"><h2 style={{fontSize:24,fontWeight:700,color:TX,margin:"8px 0 16px",fontFamily:"Georgia,serif"}}>Data flows through three layers.</h2></FadeIn>
     {/* Pipeline visual */}
     <div style={{display:"flex",alignItems:"center",gap:0,width:"100%"}}>
       {/* Input */}
-      <div style={{width:100,display:"flex",flexDirection:"column",gap:4,flexShrink:0}}>
+      <div style={{width:90,display:"flex",flexDirection:"column",gap:4,flexShrink:0}}>
         {["Spreadsheets","PDFs","Knowledge"].map((s,i)=>
           <FadeIn key={i} delay={300+i*100} from="left">
             <div style={{padding:"4px 8px",background:CD,border:"1px solid "+BR,borderRadius:4,color:T2,fontSize:9,textAlign:"center"}}>{s}</div>
           </FadeIn>
         )}
       </div>
-      <div style={{color:T2,fontSize:16,margin:"0 6px"}}>{"\u2192"}</div>
+      <div style={{color:T2,fontSize:16,margin:"0 4px"}}>{"\u2192"}</div>
       {/* Three layer boxes */}
       {layers.map((l,i)=>{
         const on=active>=i;
         return <div key={i} style={{display:"flex",alignItems:"center",flex:1}}>
-          <div style={{flex:1,padding:"12px 10px",background:on?l.c+"18":CD,border:"2px solid "+(on?l.c:BR),borderRadius:10,textAlign:"center",transition:"all 0.5s",minHeight:120,display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",gap:4}}>
+          <div style={{flex:1,padding:"10px 8px",background:on?l.c+"18":CD,border:"2px solid "+(on?l.c:BR),borderRadius:10,textAlign:"center",transition:"all 0.5s",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",gap:3}}>
             <div style={{color:on?l.c:T2,transition:"color 0.3s"}}>{l.icon}</div>
             <div style={{color:on?l.c:T2,fontSize:10,fontWeight:700,transition:"color 0.3s"}}>{l.n}</div>
-            <div style={{color:on?TX:T2,fontSize:14,fontWeight:700,fontFamily:"Georgia,serif",transition:"color 0.3s"}}>{l.t}</div>
-            <div style={{color:T2,fontSize:9,lineHeight:1.3}}>{l.sub}</div>
+            <div style={{color:on?TX:T2,fontSize:13,fontWeight:700,fontFamily:"Georgia,serif",transition:"color 0.3s"}}>{l.t}</div>
+            <div style={{color:T2,fontSize:8,lineHeight:1.3}}>{l.sub}</div>
           </div>
-          {i<2&&<div style={{color:on&&active>i?layers[i+1].c:BR,fontSize:20,margin:"0 4px",transition:"color 0.5s"}}>{"\u2192"}</div>}
+          {i<2&&<div style={{color:on&&active>i?layers[i+1].c:BR,fontSize:18,margin:"0 3px",transition:"color 0.5s"}}>{"\u2192"}</div>}
         </div>
       })}
-      <div style={{color:T2,fontSize:16,margin:"0 6px"}}>{"\u2192"}</div>
+      <div style={{color:T2,fontSize:16,margin:"0 4px"}}>{"\u2192"}</div>
       {/* Output */}
-      <div style={{width:90,display:"flex",flexDirection:"column",gap:4,flexShrink:0}}>
-        {["Quotes","Schedules","Insights"].map((s,i)=>
-          <FadeIn key={i} delay={2400+i*150} from="right">
-            <div style={{padding:"4px 8px",background:G+"18",border:"1px solid "+G+"44",borderRadius:4,color:G,fontSize:9,textAlign:"center",fontWeight:600}}>{s}</div>
+      <div style={{width:100,display:"flex",flexDirection:"column",gap:4,flexShrink:0}}>
+        {[{t:"Marketing",c:G},{t:"Pricing checks",c:G},{t:"Scheduling",c:G},{t:"Service plans",c:G},{t:"Drift detection",c:G}].map((s,i)=>
+          <FadeIn key={i} delay={2400+i*120} from="right">
+            <div style={{padding:"3px 8px",background:G+"18",border:"1px solid "+G+"44",borderRadius:4,color:G,fontSize:8,textAlign:"center",fontWeight:600}}>{s.t}</div>
           </FadeIn>
         )}
       </div>
     </div>
+    {/* L2 output bubbles */}
+    <FadeIn delay={1600} from="below">
+      <div style={{display:"flex",justifyContent:"center",gap:8,marginTop:10}}>
+        <div style={{color:A,fontSize:9,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.05em"}}>L2 also generates:</div>
+        {["Job scope","Materials list","Crew schedule","QA checklist","Warranty"].map((s,i)=>
+          <div key={i} style={{padding:"3px 8px",background:A+"12",border:"1px solid "+A+"33",borderRadius:10,color:A,fontSize:8,fontWeight:600}}>{s}</div>
+        )}
+      </div>
+    </FadeIn>
     <FadeIn delay={2800} from="below">
       <div style={{display:"flex",alignItems:"center",gap:8,marginTop:16,padding:"8px 14px",background:A+"11",borderRadius:8,border:"1px solid "+A+"33"}}>
         <Shield size={14} color={A}/>
@@ -553,7 +570,7 @@ function SlideCompetition(){
   const features=["Formula compilation","Pricebook Drift Engine","AI with real data context","Built-in HR suite","Open API","11-min setup"];
   const comps=[
     {n:"Throne",p:"$100-500",vals:[1,1,1,1,1,1],c:A,highlight:true},
-    {n:"Buildertrend",p:"$499+",vals:[0,0,0,0,0,0],c:T2},
+    {n:"Buildertrend",p:"$10K/yr",vals:[0,0,0,0,0,0],c:T2},
     {n:"ServiceTitan",p:"$500+",vals:[0,0,0.5,0,0.5,0],c:T2},
     {n:"Jobber",p:"$69-349",vals:[0,0,0,0,0,0],c:T2},
     {n:"HubSpot",p:"$800+",vals:[0,0,0,0,0.5,0],c:T2},
@@ -576,8 +593,8 @@ function SlideCompetition(){
         <div key={fi} style={{display:"grid",gridTemplateColumns:"2fr "+comps.map(()=>"1fr").join(" "),borderBottom:fi<features.length-1?"1px solid "+BR:"none"}}>
           <div style={{padding:"4px 10px",color:T2,fontSize:9}}>{f}</div>
           {comps.map((c,ci)=><div key={ci} style={{padding:"4px 4px",textAlign:"center",borderLeft:"1px solid "+BR,background:c.highlight?A+"08":"transparent"}}>
-            <span style={{color:c.vals[fi]===1?G:c.vals[fi]===0.5?A:R,fontSize:11,fontWeight:700}}>
-              {c.vals[fi]===1?"\u2713":c.vals[fi]===0.5?"~":"\u2717"}
+            <span style={{color:c.vals[fi]===1?G:c.vals[fi]===0.5?A:R,fontSize:c.vals[fi]===0.5?8:11,fontWeight:700}}>
+              {c.vals[fi]===1?"\u2713":c.vals[fi]===0.5?"basic":"\u2717"}
             </span>
           </div>)}
         </div>
@@ -585,13 +602,13 @@ function SlideCompetition(){
     </Card>
     <FadeIn delay={600} from="below">
       <div style={{display:"flex",gap:12,marginTop:12}}>
-        <Card style={{flex:1,textAlign:"center",padding:10}}>
-          <div style={{color:G,fontSize:24,fontWeight:800,fontFamily:"Georgia,serif"}}><AnimNum value={680} color={G}/>K</div>
-          <div style={{color:T2,fontSize:9}}>target businesses</div>
+        <Card style={{flex:1,textAlign:"center",padding:"12px 8px"}}>
+          <div style={{color:G,fontSize:32,fontWeight:800,fontFamily:"Georgia,serif"}}><AnimNum value={680} color={G}/>K</div>
+          <div style={{color:T2,fontSize:10}}>target businesses</div>
         </Card>
-        <Card style={{flex:1,textAlign:"center",padding:10}}>
-          <div style={{color:A,fontSize:24,fontWeight:800,fontFamily:"Georgia,serif"}}>$1.6B</div>
-          <div style={{color:T2,fontSize:9}}>addressable/yr</div>
+        <Card style={{flex:1,textAlign:"center",padding:"12px 8px"}}>
+          <div style={{color:A,fontSize:32,fontWeight:800,fontFamily:"Georgia,serif"}}>$1.6B</div>
+          <div style={{color:T2,fontSize:10}}>addressable/yr</div>
         </Card>
         <Card style={{flex:1,textAlign:"center",padding:10}}>
           <div style={{color:R,fontSize:12,fontWeight:700}}>#1 complaint</div>
